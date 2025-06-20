@@ -242,6 +242,7 @@ print("Top result:", search_result[0])
 ### **1. Vector Representation of Words (Embeddings)**  
 Instead of treating words as discrete entities, semantic search represents them as points in an **N-dimensional space**.
 
+ // Start of Selection
 For example:  
 🔹 "Car" → \( v_{car} = [0.21, 0.34, 0.12, 0.85] \)  
 🔹 "Vehicle" → \( v_{vehicle} = [0.20, 0.32, 0.15, 0.88] \)  
@@ -250,58 +251,59 @@ Since the vectors for "Car" and "Vehicle" are close in vector space, they are **
 
 ---
 
-### **2. Similarity Calculation Using Cosine Similarity**  
+### 2. Similarity Calculation Using Cosine Similarity
+
 The similarity between two word vectors \( v_1 \) and \( v_2 \) is computed using **cosine similarity**:
 
 \[
-\cos(\theta) = \frac{v_1 \cdot v_2}{\| v_1 \| \| v_2 \|}
+\cos(\theta) = \frac{v_1 \cdot v_2}{\| v_1 \| \, \| v_2 \|}
 \]
 
 where:
 - \( v_1 \cdot v_2 \) is the **dot product** of the vectors.
-- \( \| v_1 \| \) and \( \| v_2 \| \) are the **magnitudes (norms)** of the vectors.
+- \( \|v_1\| \) and \( \|v_2\| \) are the **magnitudes (norms)** of the vectors.
 
-#### **Example Calculation**  
+#### Example Calculation  
 Let’s take two document vectors:
 
-\[
+$$
 v_1 = [0.1, 0.2, 0.9], \quad v_2 = [0.1, 0.3, 0.8]
-\]
+$$
 
 1️⃣ **Compute Dot Product**  
-\[
+$$
 v_1 \cdot v_2 = (0.1 \times 0.1) + (0.2 \times 0.3) + (0.9 \times 0.8) = 0.01 + 0.06 + 0.72 = 0.79
-\]
+$$
 
 2️⃣ **Compute Magnitude**  
-\[
+$$
 \| v_1 \| = \sqrt{(0.1)^2 + (0.2)^2 + (0.9)^2} = \sqrt{0.01 + 0.04 + 0.81} = \sqrt{0.86} = 0.927
-\]
+$$
 
-\[
+$$
 \| v_2 \| = \sqrt{(0.1)^2 + (0.3)^2 + (0.8)^2} = \sqrt{0.01 + 0.09 + 0.64} = \sqrt{0.74} = 0.86
-\]
+$$
 
 3️⃣ **Compute Cosine Similarity**  
-\[
+$$
 \cos(\theta) = \frac{0.79}{(0.927 \times 0.86)} = \frac{0.79}{0.797} = 0.99
-\]
+$$
 
 Since **cosine similarity ≈ 0.99**, these vectors are **highly similar**, meaning the documents are semantically related.
 
 ---
 
 ### **3. Finding the Most Relevant Document**  
-When a user searches for "best electric car", the query is embedded as a vector \( v_q \). The system retrieves the top **k nearest neighbors (KNN)** based on similarity scores.
+When a user searches for "best electric car", the query is embedded as a vector $$ v_q $$. The system retrieves the top **k nearest neighbors (KNN)** based on similarity scores.
 
 If the database has stored document embeddings:
-\[
+$$
 D_1 = [0.21, 0.34, 0.12, 0.85], \quad D_2 = [0.50, 0.10, 0.80, 0.60], \quad D_3 = [0.23, 0.32, 0.15, 0.88]
-\]
+$$
 and the query vector is:
-\[
+$$
 Q = [0.20, 0.33, 0.14, 0.87]
-\]
+$$
 
 Then, by computing cosine similarity, we find that **D1 and D3** are the most relevant documents, meaning the search result returns them first.
 

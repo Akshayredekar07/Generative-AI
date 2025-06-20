@@ -12,32 +12,49 @@ llm = HuggingFaceEndpoint(
 )
 model = ChatHuggingFace(llm=llm)
 
-# Maintain chat history
-chat_history = []
+# Function to handle chat submission
+def chat_function(message, history):
+    if message.strip().lower() == "exit":
+        return history + [[message, "Session ended. Type reload to restart."]], ""
+    response = model.invoke(message)
+    history.append([message, response.content])
+    return history, ""
 
-def chat_with_model(user_input, history):
-    if user_input.strip().lower() == "exit":
-        return history + [[user_input, "Session ended. Type reload to restart."]], gr.update(interactive=False)
+# Create the interface with Blocks
+with gr.Blocks(title="🧠 Chat with Mistral-7B") as demo:
+    # Output box (chat history) at the top
+    chatbot = gr.Chatbot()
     
-    response = model.invoke(user_input)
-    history.append([user_input, response.content])
-    return history, history
-
-# Create the Gradio interface
-chatbot = gr.Chatbot()
-demo = gr.Interface(
-    fn=chat_with_model,
-    inputs=[
-        gr.Textbox(placeholder="Type your message here...", label="You"),
-        gr.State([])
-    ],
-    outputs=[
-        chatbot,
-        gr.State([])
-    ],
-    title="🧠 Chat with Mistral-7B",
-    description="Type `exit` to end the session."
-)
+    # Input text box below the output
+    textbox = gr.Textbox(placeholder="Type your message here...", label="You")
+    
+    # Row for "Clear" and "Submit" buttons below the text box
+    with gr.Row():
+        clear_button = gr.Button("Clear")
+        submit_button = gr.Button("Submit", variant="primary")  # Changed to orange with primary variant
+    
+    # Exit info below the buttons
+    gr.Markdown("Type exit to end the session.")
+    
+    # "Flag" button at the bottom
+    flag_button = gr.Button("Flag")
+    
+    # Submit button functionality: update chat and clear input
+    submit_button.click(
+        fn=chat_function,
+        inputs=[textbox, chatbot],
+        outputs=[chatbot, textbox]
+    )
+    
+    # Clear button functionality: clear the text box
+    clear_button.click(
+        fn=lambda: "",
+        inputs=[],
+        outputs=[textbox]
+    )
+    
+    # Flag button (no functionality yet, can be added if needed)
+    # flag_button.click(fn=some_function, inputs=[chatbot], outputs=[])
 
 # Launch the app
 demo.launch()
