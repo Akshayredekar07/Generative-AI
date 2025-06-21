@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 llm = HuggingFaceEndpoint(
-    repo_id="mistralai/Mistral-7B-Instruct-v0.3",  # a model deployed to the HF Inference API
+    model="mistralai/Mistral-7B-Instruct-v0.3",  # a model deployed to the HF Inference API
     task="text-generation"
 )
 

@@ -19,9 +19,6 @@ txt = loader.load()
 
 
 
-
-
-
 text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50)
 texts = [doc.page_content for doc in docs]
 
