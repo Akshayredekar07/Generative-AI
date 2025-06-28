@@ -1,5 +1,3 @@
-
-
 from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
 from langchain_huggingface import ChatHuggingFace, HuggingFaceEndpoint
 from dotenv import load_dotenv
@@ -9,14 +7,16 @@ load_dotenv()
 # Initialize the model
 llm = HuggingFaceEndpoint(
     repo_id="mistralai/Mistral-7B-Instruct-v0.3",
+    model="mistralai/Mistral-7B-Instruct-v0.3",
     task="text-generation"
 )
 model = ChatHuggingFace(llm=llm)
 
 # Message-based chat history
-chat_history = [
-    SystemMessage(content="You are a helpful assistant.")
-]
+chat_history = []
+
+# Add initial system message
+chat_history.append(SystemMessage(content="You are a helpful assistant."))
 
 # Chat loop
 while True:

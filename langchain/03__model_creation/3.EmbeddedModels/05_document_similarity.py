@@ -17,7 +17,7 @@ embedding = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L
 doc_embedding = embedding.embed_documents(documents)
 query_embedding = embedding.embed_query(query)
 
-scores = cosine_similarity([query_embedding], doc_embedding)[0]
+scores = cosine_similarity(np.array([query_embedding]), np.array(doc_embedding))[0]
 
 # Sort by score and get best match
 index, score = sorted(list(enumerate(scores)), key=lambda x: x[1])[-1]

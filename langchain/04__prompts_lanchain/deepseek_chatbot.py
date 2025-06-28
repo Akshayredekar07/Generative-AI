@@ -1,5 +1,3 @@
-
-
 from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
 from langchain_huggingface import ChatHuggingFace, HuggingFaceEndpoint
 from dotenv import load_dotenv
@@ -9,14 +7,16 @@ load_dotenv()
 # Initialize the model
 llm = HuggingFaceEndpoint(
     repo_id="deepseek-ai/deepseek-coder-6.7b-instruct",  # or another DeepSeek HF model
+    model="deepseek-ai/deepseek-coder-6.7b-instruct",  # or another DeepSeek HF model
     task="text-generation"
 )
 model = ChatHuggingFace(llm=llm)
 
 # Message-based chat history
-chat_history = [
-    SystemMessage(content="You are a helpful assistant.")
-]
+chat_history = []
+
+# Add initial system message
+chat_history.append(SystemMessage(content="You are a helpful assistant."))
 
 # Chat loop
 while True:

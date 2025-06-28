@@ -1,37 +1,26 @@
-
-
-
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
 
+# 1. Define the prompt template with a system message, history, and user query
 chat_template = ChatPromptTemplate.from_messages([
     ("system", "You are a helpful customer support agent."),
     MessagesPlaceholder(variable_name="chat_history"),
     ("human", "{query}")
 ])
 
-
-chat_history = []
-
+# 2. Load previous messages from file
 with open("chat_history.txt", "r", encoding="utf-8") as f:
-    for line in f:
-        line = line.strip()
-        if line:
-            msg = eval(line, {"HumanMessage": HumanMessage, "AIMessage": AIMessage})
-            chat_history.append(msg)
+    chat_history = [
+        eval(line.strip(), {"HumanMessage": HumanMessage, "AIMessage": AIMessage})
+        for line in f if line.strip()
+    ]
 
-
-
-prompt = chat_template.invoke({
+# 3. Fill the template with actual data
+filled_prompt = chat_template.invoke({
     "chat_history": chat_history,
     "query": "Where is my refund?"
 })
 
-# Step 3: Send prompt to model (if you have one hooked)
-# result = model.invoke(prompt.messages)
-# print("AI:", result.content)
-
-
-
+# 4. Print the full prompt object (not sending to model here)
 print("\nComplete Prompt:")
-print(prompt) 
+print(filled_prompt)
