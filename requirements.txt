@@ -1,29 +1,72 @@
-faiss-cpu
-langchain-chroma>=0.1.2
-beautifulsoup4
-# Langchain core
+# LangChain core
 langchain
 langchain-core
+langchain-community
+langchain-text-splitters
+langchain-chroma
+langserve
+langserve[all]
 
 # OpenAI integration
-langchain-openai 
+langchain-openai
 openai
 
 # Anthropic integration
 langchain-anthropic
 
-# Google Gemini(PaLM) Integration
+# Google Gemini (PaLM) integration
 langchain-google-genai
 google-generativeai
 
-# Hugging face integration
+# Hugging Face integration
 langchain-huggingface
 transformers
-huggingface-hub
+huggingface_hub
+sentence_transformers
 
-# Envirnment variable management
+# Grok integration
+langchain-groq
+
+# Environment variable management
 python-dotenv
 
-# Machine learning utilities 
+# Machine learning utilities
 numpy
 scikit-learn
+
+# Database and storage
+chromadb
+faiss-cpu
+duckdb
+pandas
+mysql-connector-python
+SQLAlchemy
+
+# Web scraping and search
+beautifulsoup4
+bs4
+duckduckgo_search==5.3.1b1
+wikipedia
+arxiv
+
+# PDF and document processing
+pypdf
+pymupdf
+unstructured
+
+# YouTube and media
+youtube_transcript_api
+pytube
+
+# Web server and API
+fastapi
+uvicorn
+sse_starlette
+multidict
+
+# Miscellaneous
+ipykernel
+ipywidgets==8.1.7
+validators==0.28.1
+numexpr
+pydantic
