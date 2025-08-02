@@ -2,32 +2,23 @@ import streamlit as st
 from dotenv import load_dotenv
 from langchain.prompts import PromptTemplate
 from langchain_core.prompts import load_prompt
-from langchain_huggingface import ChatHuggingFace, HuggingFaceEndpoint
 from langchain_groq import ChatGroq
-
-# Load environment variables
 load_dotenv()
-
-# Load the Mistral model
-# llm = HuggingFaceEndpoint(
-#     repo_id="mistralai/Mistral-7B-Instruct-v0.3",
-#     model="mistralai/Mistral-7B-Instruct-v0.3",
-#     task="text-generation"
-# )
-# model = ChatHuggingFace(llm=llm)
 
 model = ChatGroq(model="llama-3.3-70b-versatile")
 
-
-# Streamlit UI
-st.title("🧠 Research Paper Explainer")
+st.title("Research Paper Explainer")
 st.write("Explain research papers in your preferred style.")
 
-# Inputs
 paper_input = st.selectbox(
     "Select Research Paper",
-    ["Select...", "Attention Is All You Need", "BERT: Pre-training of Deep Bidirectional Transformers", 
-     "GPT-3: Language Models are Few-Shot Learners", "Diffusion Models Beat GANs on Image Synthesis"]
+    ["Select...",
+    "Chain of Thought Prompting(CoT)",
+    "Attention is All you Need",
+    "BERT: Pretraining of Deep Bidirectional Transformers",
+    "GPT-3: Language Models are Few-Shot Learners",
+    "Diffusion Models Beats GANs on Image Synthesis"
+    ]
 )
 
 style_input = st.selectbox(
@@ -41,23 +32,21 @@ length_input = st.selectbox(
 )
 
 
-template = load_prompt('template.json')
+template = load_prompt("template.json")
 
 
-# Generate prompt text
 prompt = template.format(
     paper_input=paper_input,
     style_input=style_input,
     length_input=length_input
 )
 
+
 if st.button("Generate Explanation"):
-    if paper_input == "Select...":
+    if paper_input=="Select...":
         st.warning("Please select a research paper.")
     else:
         with st.spinner("Generating explanation..."):
-            response = model.invoke(prompt)
+            response=model.invoke(prompt)
             st.markdown("### Response")
             st.write(response.content)
-
-

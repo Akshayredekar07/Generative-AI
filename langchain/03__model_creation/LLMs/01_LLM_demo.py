@@ -1,4 +1,8 @@
 
+import os
+os.environ["LANGCHAIN_TRACING_V2"] = "false"
+
+
 from langchain_openai import OpenAI
 from dotenv import load_dotenv
 
